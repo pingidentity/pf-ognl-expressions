@@ -1,0 +1,17 @@
+// Office365 Exchange Active Client restrict to subnets
+//
+// The following example uses the custom headers provided in a Microsoft O365 Active Client 
+// authentication request to determine if the client is coming from an approved subnet. If
+// so the request will be permitted.
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#permitRequest = false, 
+#objReq = #this.get("context.HttpRequest").getObjectValue(), 
+#msApplication = #objReq.getHeader("X-MS-Client-Application") != null ? #objReq.getHeader("X-MS-Client-Application") : "",
+#clientIPList = #objReq.getHeader("X-MS-Forwarded-Client-IP") != null ? #objReq.getHeader("X-MS-Forwarded-Client-IP") : "0.0.0.0, 0.0.0.0, 0.0.0.0", 
+#clientIP = #clientIPList.toString().split(',')[0],
+#subnet1 = new org.apache.commons.net.util.SubnetUtils("192.0.2.0/24"),
+#subnet2 = new org.apache.commons.net.util.SubnetUtils("198.51.100.0/24"),
+#permitRequest = (#subnet1.getInfo().isInRange(#clientIP) || #subnet2.getInfo().isInRange(#clientIP)) && (#msApplication == "Microsoft.Exchange.RPC") ? true : #permitRequest,
+#result = #permitRequest

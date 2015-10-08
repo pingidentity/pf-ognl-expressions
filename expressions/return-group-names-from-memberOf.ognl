@@ -1,0 +1,17 @@
+// Reformat memberOf attribute to just group names
+//
+// This example will loop through the user's memberOf attribute and extract only the group 
+// name (cn value) and return the list of cn's
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#groupCnOnly = new java.util.ArrayList(),
+#groups = #this.get("ds.AD.memberOf")!=null ? #this.get("ds.AD.memberOf").getValues() : {},
+#groups.{   
+  #group = #this,   
+  #group = new javax.naming.ldap.LdapName(#group),   
+  #cn = #group.getRdn(#group.size() - 1).getValue().toString(), 
+  #groupCnOnly.add(#cn)
+},
+ 
+#this.get("ds.AD.memberOf")!=null ? new org.sourceid.saml20.adapter.attribute.AttributeValue(#groupCnOnly) : null

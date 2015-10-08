@@ -1,0 +1,13 @@
+// Return a single value from a multi-value attribute
+//
+// During attribute contract fulfillment, an administrator may wish to retrieve only one attribute 
+// from an LDAP field containing a multi-value attribute. This task can most easily be done using 
+// OGNL's "Selecting from Collections" logic. For example, the carat - "^" in 
+// #addresses.{^ #this.toString().startsWith("SMTP:") } would select the first element that starts
+// with "SMTP:".
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#addresses = #this.get("ds.LDAP.proxyAddresses") != null ? #this.get("ds.LDAP.proxyAddresses").getValues() : {},
+#firstmatch = #addresses.{^ #this.toString().startsWith("SMTP:") },
+#firstmatch != null ? new org.sourceid.saml20.adapter.attribute.AttributeValue(#firstmatch) : null

@@ -1,0 +1,9 @@
+// Base64 encode and decode strings
+//
+// You have an attribute which contains special characters, such as XML. You would like to 
+// base64encode it at the Identity Provider (IdP), then decode it at the Service Provider (SP).
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#b64EncodedString = @com.pingidentity.common.util.B64@encode(#this.get("plainTextValue").toString())
+#plainTextString = @com.pingidentity.common.util.B64@decodeToString(#this.get("b64EncodedValue").toString())

@@ -1,0 +1,10 @@
+// Force uppercase or lowercase of a datastore value
+//
+// If you are obtaining additional attributes from a datastore (such as LDAP), the partner
+// may require that attribute values are either all uppercase, or all lowercase. This example
+// returns the value of a datastore lookup (ds.mail) in either uppercase or lowercase.
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#lowerCaseValue = #this.get("ds.mail").toString().toLowerCase()
+#upperCaseValue = #this.get("ds.mail").toString().toUpperCase()

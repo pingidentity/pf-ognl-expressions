@@ -1,0 +1,10 @@
+// Check for null value
+//
+// This OGNL expression will check the attribute "attributeName" for a null value. If the value
+// is null, a default value of "default" will be sent in the assertion otherwise the value of
+// attributeName will be sent.
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#value = #this.get("attributeName"),
+#value == null ? "default" : #value

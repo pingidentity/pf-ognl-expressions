@@ -1,0 +1,14 @@
+// Testing the Active Directory userAccountControl attribute
+//
+// During token issuance, it may be desirable to check the Active Directory userAccountControl 
+// attribute. An example is to verify that that the account is not disabled.
+// To check a value in this field, the easiest mechanism is to use an OGNL expression involving 
+// a "bitwise AND" operation.
+//
+// The examples below test the userAccountControl value returned from an attribute lookup (ds.userAccountControl)
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#isAccountEnabled = (#this.get("ds.userAccountControl")&2)==0
+#isAccountUnlocked = (#this.get("ds.userAccountControl")&16)==0
+#isAccountEnabledAndUnlocked = (#this.get("ds.userAccountControl")&18)==0
