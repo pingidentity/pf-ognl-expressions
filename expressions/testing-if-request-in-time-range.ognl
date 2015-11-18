@@ -1,0 +1,19 @@
+// Test if current time in specified range
+//
+// This would be used in an issuance criteria to determine if an SSO event or OAuth 
+// request has been received within a specified time frame. Say during normal business 
+// hours.
+//
+// The time values are set in the expression "@HOUR_OF_DAY, 8" in the setting of the 
+// before and after variables. Adjust this is needed depending on your application 
+// requirements.
+//
+// ---------- \/ Begin OGNL expression (don't copy the above text) \/ ----------
+
+#before = new java.util.GregorianCalendar(),
+#before.set(@java.util.Calendar@HOUR_OF_DAY, 8),
+#after = new java.util.GregorianCalendar(),
+#after.set(@java.util.Calendar@HOUR_OF_DAY, 17),
+#now = new java.util.GregorianCalendar(),
+
+(#before.before(#now))?(#after.after(#now))?@java.lang.Boolean@TRUE:@java.lang.Boolean@FALSE:@java.lang.Boolean@TRUE
